@@ -24,7 +24,7 @@ void UOpenDoor::BeginPlay()
 	FString DoorName = Owner->GetHumanReadableName();
 
 	// Create a rotator
-	FRotator Rotator(0.0f, 60.0f, 0.0f);
+	FRotator Rotator(0.0f, OpenAngle, 0.0f);
 
 	// Set the door rotation
 	Owner->SetActorRotation(Rotator, ETeleportType::TeleportPhysics);
