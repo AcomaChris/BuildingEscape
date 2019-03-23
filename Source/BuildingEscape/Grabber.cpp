@@ -20,7 +20,7 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty!"));
+	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty!"))
 
 	GrabberPlayerController = GetWorld()->GetFirstPlayerController();
 
@@ -46,7 +46,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	//UE_LOG(LogTemp, Warning, TEXT("Position: %s | Rotation: %s"),
 	//	*PlayerViewPointLocation.ToString(),
 	//	*PlayerViewPointRotator.ToString()
-	//);
+	//)
 
 	// Debug line trace variables
 	LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotator.Vector() * Reach;
@@ -62,8 +62,24 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		0.0f,
 		10.0f);
 
-	// Ray-cast out to reach distance
+	// Setup query parameters for collision
+	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
+
+	// Line-trace (AKA ray-cast) out to reach distance
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT LineTraceHit,
+		PlayerViewPointLocation,
+		LineTraceEnd,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		TraceParameters
+	);
 
 	// See what we hit
+	ActorHit = LineTraceHit.GetActor();
+
+	if (ActorHit)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("We hit: %s"), *(ActorHit->GetName()))
+	}
 }
 
