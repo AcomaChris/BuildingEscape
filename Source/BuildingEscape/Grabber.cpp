@@ -24,6 +24,14 @@ void UGrabber::BeginPlay()
 
 	GrabberPlayerController = GetWorld()->GetFirstPlayerController();
 
+	// Look for attached physics handle
+	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+
+	if (!PhysicsHandle)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Missing PhysicsHandle on actor %s"), *(GetOwner()->GetName()))
+	}
+
 	// ...
 
 }

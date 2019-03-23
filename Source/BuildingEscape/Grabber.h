@@ -6,6 +6,7 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/Classes/GameFramework/PlayerController.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Components/ActorComponent.h"
 #include "Grabber.generated.h"
 
@@ -43,5 +44,8 @@ private:
 	/// How far each of the player can we see ahead of them
 	UPROPERTY(EditAnywhere)
 	float Reach = 100.0f;
+
+	// Physics handler
+	UPhysicsHandleComponent * PhysicsHandle = nullptr;
 
 };
