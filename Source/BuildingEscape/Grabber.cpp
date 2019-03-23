@@ -2,6 +2,7 @@
 
 #include "Grabber.h"
 
+#define OUT
 
 // Sets default values for this component's properties
 UGrabber::UGrabber()
@@ -21,6 +22,8 @@ void UGrabber::BeginPlay()
 
 	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty!"));
 
+	GrabberPlayerController = GetWorld()->GetFirstPlayerController();
+
 	// ...
 
 }
@@ -31,6 +34,36 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	//GrabberPlayerPosition = GrabberPlayerController->GetPlayerViewPoint();
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+		OUT PlayerViewPointLocation,
+		OUT PlayerViewPointRotator
+	);
+
+	// Log out to test
+
+	// Get player viewpoint this tick
+	//UE_LOG(LogTemp, Warning, TEXT("Position: %s | Rotation: %s"),
+	//	*PlayerViewPointLocation.ToString(),
+	//	*PlayerViewPointRotator.ToString()
+	//);
+
+	// Debug line trace variables
+	LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotator.Vector() * Reach;
+
+	// Draw a red trace in the world to visualize
+	DrawDebugLine(
+		GetWorld(),
+		PlayerViewPointLocation,
+		LineTraceEnd,
+		FColor(255, 0, 0),
+		false,
+		0.0f,
+		0.0f,
+		10.0f);
+
+	// Ray-cast out to reach distance
+
+	// See what we hit
 }
 
