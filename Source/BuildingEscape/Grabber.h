@@ -30,22 +30,18 @@ public:
 
 private:
 
-	void InitializeGrabberVariables();
-	void InizializePhysicsHandle();
-	void InizializeInputComponent();
+	// Find (assumed) attache physics handle
+	void FindPhysicsHandleComponent();
+
+	// Setup (assumed) attached input component
+	void SetupInputComponent();
+
+	// Return hit for first physics body in reach
+	FHitResult GetFirstPhysicsBodyInReach() const;
 
 	/// Stores the player controller
 	APlayerController * GrabberPlayerController;
 	FString GrabberPlayerPosition = "";
-
-	/// Variables for storing location and rotation of player controller
-	FVector PlayerViewPointLocation;
-	FRotator PlayerViewPointRotator;
-
-	/// Debug line trace and collision variables
-	FVector LineTraceEnd = FVector(0.0f, 0.0f, 0.0f);
-	FHitResult LineTraceHit;
-	AActor * ActorHit;
 
 	/// How far each of the player can we see ahead of them
 	UPROPERTY(EditAnywhere)
@@ -57,7 +53,7 @@ private:
 	// Input component
 	UInputComponent * InputComponent = nullptr;
 
-	// Raycast and grab what's in reach
+	/// Raycast and grab or release what's in reach
 	void Grab();
 	void Release();
 
