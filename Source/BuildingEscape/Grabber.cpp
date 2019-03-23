@@ -118,10 +118,11 @@ void UGrabber::InizializeInputComponent()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Input component has been found"))
+		UE_LOG(LogTemp, Warning, TEXT("Input components have been found"))
 
-		//Binding the input axis
+		//Binding the input actions
 		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+		InputComponent->BindAction("Release", IE_Released, this, &UGrabber::Release);
 	}
 }
 
@@ -129,4 +130,10 @@ void UGrabber::InizializeInputComponent()
 void UGrabber::Grab()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab pressed"))
+}
+
+// Release what's in reach
+void UGrabber::Release()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Release pressed"))
 }
