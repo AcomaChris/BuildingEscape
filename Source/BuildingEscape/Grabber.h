@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
+#include "Components/InputComponent.h"
 #include "Engine/Classes/GameFramework/PlayerController.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Components/ActorComponent.h"
@@ -28,6 +29,11 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
+
+	void InitializeGrabberVariables();
+	void InizializePhysicsHandle();
+	void InizializeInputComponent();
+
 	/// Stores the player controller
 	APlayerController * GrabberPlayerController;
 	FString GrabberPlayerPosition = "";
@@ -47,5 +53,11 @@ private:
 
 	// Physics handler
 	UPhysicsHandleComponent * PhysicsHandle = nullptr;
+
+	// Input component
+	UInputComponent * InputComponent = nullptr;
+
+	// Raycast and grab what's in reach
+	void Grab();
 
 };

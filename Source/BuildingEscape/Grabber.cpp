@@ -14,7 +14,6 @@ UGrabber::UGrabber()
 	// ...
 }
 
-
 // Called when the game starts
 void UGrabber::BeginPlay()
 {
@@ -22,20 +21,11 @@ void UGrabber::BeginPlay()
 
 	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty!"))
 
-	GrabberPlayerController = GetWorld()->GetFirstPlayerController();
-
-	// Look for attached physics handle
-	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-
-	if (!PhysicsHandle)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Missing PhysicsHandle on actor %s"), *(GetOwner()->GetName()))
-	}
+	InitializeGrabberVariables();
 
 	// ...
 
 }
-
 
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -91,3 +81,52 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	}
 }
 
+void UGrabber::InitializeGrabberVariables()
+{
+	// Get the player controller
+	GrabberPlayerController = GetWorld()->GetFirstPlayerController();
+
+	// Initialize the components
+	InizializePhysicsHandle();
+	InizializeInputComponent();
+
+}
+
+// Gets the physics handle and links to PhysicsHandle pointer
+void UGrabber::InizializePhysicsHandle()
+{
+	// Look for attached physics handle
+	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+
+	// Error out if we cannot find a physics handle
+	if (!PhysicsHandle)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Missing PhysicsHandle on actor %s"), *(GetOwner()->GetName()))
+	}
+}
+
+// Gets the physics handle and links to InputComponent pointer
+void UGrabber::InizializeInputComponent()
+{
+	// Look for attached input component (only appears at runtime)
+	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+
+	// Error out if we cannot find an input component
+	if (!InputComponent)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Missing InputComponent on actor %s"), *(GetOwner()->GetName()))
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Input component has been found"))
+
+		//Binding the input axis
+		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+	}
+}
+
+// Raycast and grab what's in reach
+void UGrabber::Grab()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Grab pressed"))
+}
