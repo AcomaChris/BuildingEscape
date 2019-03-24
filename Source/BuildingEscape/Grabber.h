@@ -28,6 +28,10 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	/// Return vector for start or end of line using Reach variable
+	FVector GetReachLineEnd();
+	FVector GetReachLineStart();
+
 private:
 
 	// Find (assumed) attache physics handle
@@ -37,7 +41,7 @@ private:
 	void SetupInputComponent();
 
 	// Return hit for first physics body in reach
-	FHitResult GetFirstPhysicsBodyInReach() const;
+	FHitResult GetFirstPhysicsBodyInReach();
 
 	/// Stores the player controller
 	APlayerController * GrabberPlayerController;
