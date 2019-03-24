@@ -7,11 +7,11 @@
 #include "DrawDebugHelpers.h"
 #include "Components/InputComponent.h"
 #include "Engine/Classes/GameFramework/PlayerController.h"
-#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Engine/Classes/PhysicsEngine/PhysicsHandleComponent.h"
 #include "Components/ActorComponent.h"
 #include "Grabber.generated.h"
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BUILDINGESCAPE_API UGrabber : public UActorComponent
 {
 	GENERATED_BODY()
@@ -45,7 +45,10 @@ private:
 
 	/// How far each of the player can we see ahead of them
 	UPROPERTY(EditAnywhere)
-	float Reach = 100.0f;
+		float Reach = 100.0f;
+
+	UPROPERTY(EditAnywhere)
+		bool DebugGrabberLine = false;
 
 	// Physics handler
 	UPhysicsHandleComponent * PhysicsHandle = nullptr;
