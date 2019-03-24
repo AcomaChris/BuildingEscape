@@ -28,10 +28,6 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	/// Return vector for start or end of line using Reach variable
-	FVector GetReachLineEnd();
-	FVector GetReachLineStart();
-
 private:
 
 	// Find (assumed) attache physics handle
@@ -53,6 +49,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		bool DebugGrabberLine = false;
+
+	/// Return vector for start or end of line using Reach variable
+	FVector GetReachLineEnd();
+	FVector GetReachLineStart();
 
 	// Physics handler
 	UPhysicsHandleComponent * PhysicsHandle = nullptr;
