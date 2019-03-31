@@ -8,6 +8,7 @@
 #include "Components/InputComponent.h"
 #include "Engine/Classes/GameFramework/PlayerController.h"
 #include "Engine/Classes/PhysicsEngine/PhysicsHandleComponent.h"
+#include "Classes/Components/PrimitiveComponent.h"
 #include "Components/ActorComponent.h"
 #include "Grabber.generated.h"
 
