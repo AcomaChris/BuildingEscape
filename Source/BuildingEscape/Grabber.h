@@ -41,7 +41,7 @@ private:
 	FHitResult GetFirstPhysicsBodyInReach();
 
 	/// Stores the player controller
-	APlayerController * GrabberPlayerController;
+	APlayerController * GrabberPlayerController = nullptr;
 	FString GrabberPlayerPosition = "";
 
 	/// How far each of the player can we see ahead of them

@@ -34,7 +34,7 @@ void UGrabber::FindPhysicsHandleComponent()
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 
 	// Error out if we cannot find a physics handle
-	if (!PhysicsHandle)
+	if (PhysicsHandle == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Missing PhysicsHandle on actor %s"), *(GetOwner()->GetName()))
 	}
@@ -64,6 +64,9 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	// Exit out if physics handle is a nullptr
+	if (PhysicsHandle == nullptr) { return; }
+
 	// if the physics handle is attached
 	if (PhysicsHandle->GetGrabbedComponent())
 	{
@@ -83,6 +86,9 @@ void UGrabber::Grab()
 	/// If we reach something then attach a phsyics handle
 	if (ActorHit)
 	{
+		// Exit out if physics handle is a nullptr
+		if (PhysicsHandle == nullptr) { return; }
+
 		// Attach physics handle
 		PhysicsHandle->GrabComponentAtLocationWithRotation(
 			ComponentToGrab,
@@ -96,7 +102,10 @@ void UGrabber::Grab()
 // Release what's in reach
 void UGrabber::Release()
 {
-		PhysicsHandle->ReleaseComponent();
+	// Exit out if physics handle is a nullptr
+	if (PhysicsHandle == nullptr) { return; }
+
+	PhysicsHandle->ReleaseComponent();
 }
 
 FHitResult UGrabber::GetFirstPhysicsBodyInReach()

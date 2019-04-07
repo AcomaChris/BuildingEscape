@@ -25,16 +25,34 @@ void UOpenDoor::BeginPlay()
 
 	// Declare the owner on initialization
 	Owner = GetOwner();
+
+	// Check to see if Owner is a null pointer
+	if (Owner == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Could not get owner of door: %s"), *this->GetName());
+	}
+
+	// Check to see if PressurePlate is null pointer
+	if (PressurePlate == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PressurePlate attached to %s is null."), *this->GetName());
+	}
 }
 
 void UOpenDoor::OpenDoor()
 {
+	// Protect against Owner null pointer
+	if (Owner == nullptr) { return; }
+
 	// Set the door rotation
 	Owner->SetActorRotation(FRotator(0.0f, OpenAngle, 0.0f), ETeleportType::TeleportPhysics);
 }
 
 void UOpenDoor::CloseDoor()
 {
+	// Protect against Owner null pointer
+	if (Owner == nullptr) { return; }
+
 	// Set the door rotation
 	Owner->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f), ETeleportType::TeleportPhysics);
 }
@@ -66,6 +84,12 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 float UOpenDoor::GetTotalMassOfActorsOnPlate()
 {
+	// Protect against PressurePlate null pointer
+	if (PressurePlate == nullptr)
+	{
+		return 0.0f;
+	}
+
 	float TotalMass = 0.0f;
 
 	// Find all overlapping actors
@@ -73,12 +97,12 @@ float UOpenDoor::GetTotalMassOfActorsOnPlate()
 	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
 
 	// Iterate through them an add their masses together
-
-	for (const auto* Actor  : OverlappingActors)
+	for (const auto* Actor : OverlappingActors)
 	{
-		Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
-		UE_LOG(LogTemp, Warning, TEXT("%s is on the pressure plate"), *Actor->GetName());
+		TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+
+		UE_LOG(LogTemp, Warning, TEXT("%s is on the pressure plate."), *Actor->GetName());
 	}
 
-	return 0.0f;
+	return TotalMass;
 }
