@@ -36,7 +36,7 @@ void UGrabber::FindPhysicsHandleComponent()
 	// Error out if we cannot find a physics handle
 	if (PhysicsHandle == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Missing PhysicsHandle on actor %s"), *(GetOwner()->GetName()))
+		UE_LOG(LogTemp, Error, TEXT("Missing PhysicsHandle on actor %s"), *(GetOwner()->GetName()));
 	}
 }
 
@@ -55,7 +55,7 @@ void UGrabber::SetupInputComponent()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Missing InputComponent on actor %s"), *(GetOwner()->GetName()))
+		UE_LOG(LogTemp, Error, TEXT("Missing InputComponent on actor %s"), *(GetOwner()->GetName()));
 	}
 }
 

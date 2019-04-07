@@ -49,7 +49,7 @@ private:
 		float Reach = 100.0f;
 
 	UPROPERTY(EditAnywhere)
-		bool DebugGrabberLine = false;
+	bool DebugGrabberLine = false;
 
 	/// Return vector for start or end of line using Reach variable
 	FVector GetReachLineEnd();

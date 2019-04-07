@@ -29,32 +29,14 @@ void UOpenDoor::BeginPlay()
 	// Check to see if Owner is a null pointer
 	if (Owner == nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Could not get owner of door: %s"), *this->GetName());
+		UE_LOG(LogTemp, Error, TEXT("Could not get owner of door: %s"), *this->GetName());
 	}
 
 	// Check to see if PressurePlate is null pointer
 	if (PressurePlate == nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PressurePlate attached to %s is null."), *this->GetName());
+		UE_LOG(LogTemp, Error, TEXT("PressurePlate attached to %s is null."), *this->GetName());
 	}
-}
-
-void UOpenDoor::OpenDoor()
-{
-	// Protect against Owner null pointer
-	if (Owner == nullptr) { return; }
-
-	// Set the door rotation
-	Owner->SetActorRotation(FRotator(0.0f, OpenAngle, 0.0f), ETeleportType::TeleportPhysics);
-}
-
-void UOpenDoor::CloseDoor()
-{
-	// Protect against Owner null pointer
-	if (Owner == nullptr) { return; }
-
-	// Set the door rotation
-	Owner->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f), ETeleportType::TeleportPhysics);
 }
 
 
@@ -64,20 +46,15 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// Poll the trigger volume every frame
-	if (GetTotalMassOfActorsOnPlate() > 50.0f) // TODO make into a parameter
+	if (GetTotalMassOfActorsOnPlate() > TriggerMass) // TODO make into a parameter
 	{
 		// If yes, open the door
-		OpenDoor();
-
-		// Set the last time the door opened
-		LastDoorOpenTime = GetWorld()->GetTimeSeconds();
+		OnOpen.Broadcast();
 	}
-
-	// Check if it's time to close the door
-	if (GetWorld()->GetTimeSeconds() - LastDoorOpenTime > DoorCloseDelay)
+	else
 	{
-		// If yes, close the door
-		CloseDoor();
+		// If not, close the door
+		OnClose.Broadcast();
 	}
 
 }
